@@ -13,8 +13,7 @@ env:
     - SENSU_ENVIRONMENT=default
     - SENSU_ORGANIZATION=default
   matrix:
-    - SENSU_VERSION="5.3.0"
-    - SENSU_VERSION="master"
+    - SENSU_VERSION="5.9.0"
 
 go:
   - '1.12'
