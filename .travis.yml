@@ -13,16 +13,17 @@ env:
     - SENSU_ENVIRONMENT=default
     - SENSU_ORGANIZATION=default
   matrix:
-    - SENSU_VERSION="5.3.0"
-    - SENSU_VERSION="master"
+    - SENSU_VERSION="5.9.0"
 
 go:
-  - '1.11'
+  - '1.12'
+
+go_import_path: github.com/jtopjian/terraform-provider-sensu
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: SENSU_VERSION="master"
+    - env: SENSU_VERSION="5.9.0"
 
 before_install:
   - docker pull sensu/sensu:${SENSU_VERSION}
@@ -33,18 +34,3 @@ script:
   - make fmtcheck
   - make vet
   - make testacc
-
-before_deploy:
-  - make targets
-
-deploy:
-  provider: releases
-  api_key:
-    secure: RizKQUa13pWgyCQQdZsWuCDV3cDr6bR8X4BdpvsjBlJOZF8d6ebZupHOnnaRqrzpJnO1T2oQj9m+BWBjbGEXs0LPpoZK00fwDuxrey7WLX0uqdqScqoEJ/JsdHRQo4wUCH7+/Ft2W3FVN/So/1+lKcCQd27Be10+odBwjg6VxI86iydGbObZ1uKE2V4g3tzurb8NJ3mRtu8h6wAYLYsfYNWRb9uZ+UVjdU+6RwDgmKdwlvHJlL0CakOqUPl4MM4ZcZJB4WUgHTNTiByQZrBuTyHxAsEs7uu574zTjN4KXvNLH4UlDPbHgeZBbmEGdfaohoBdslzoGLEJzJhg6kOBROyg1+7qWXnuKjGRMMk7+UbZ2vHtbmCsQdvmywHnz0to5EbhvZqYX3gzZpyqz5WLvBoh/91O0wh/uFZvVK+gax9Qt5mpRAbE/kqUx7/yzWi27AkAvUaNhygA3Dp8JrEDJAklmfrjCtaXaI0klpnd/o9gDl3OXyfDAUGfBpitVht5NOkT37+8bf97lUeymOHMmDQr7whcCpL17jBazNCKoRnGtr02XYQka/5PcJq2hSrKfKWSLayUDoOJOqMGbi1zy4FjEZMXCb2gXzhR6eJYH3dMs6JdxaI17uANNN74tawG3pKj1UwXcAfz6xOo1OsXDksyqn1G8EB2oRgfiu77COY=
-  file: dist/*.zip
-  file_glob: true
-  skip_cleanup: true
-  on:
-    repo: jtopjian/terraform-provider-sensu
-    tags: true
-    condition: $SENSU_VERSION != "master"
