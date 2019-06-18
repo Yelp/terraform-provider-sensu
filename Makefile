@@ -40,3 +40,18 @@ targets: $(TARGETS)
 $(TARGETS):
 	CGO_ENABLED=0 GOOS=$@ GOARCH=amd64 go build -o "dist/$@/terraform-provider-sensu_${TRAVIS_TAG}_x4"
 	zip -j dist/terraform-provider-sensu_${TRAVIS_TAG}_$@_amd64.zip dist/$@/terraform-provider-sensu_${TRAVIS_TAG}_x4
+
+#
+## Yelp-specific packaging
+#
+#.PHONY: itest_%
+itest_%:
+	make -C yelppack $@
+
+package: itest_xenial
+
+.PHONY: clean
+clean:
+	rm -rf dist/
+	make -C yelppack clean
+
